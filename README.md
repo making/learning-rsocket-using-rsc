@@ -64,7 +64,17 @@ rsc --route=request-stream --data=Hello --limitRate=4 --take 10 --delayElement=1
 rsc --route=request-stream --data=Hello --limitRate=1 --take 10 --delayElement=100 --stream tcp://localhost:7000
 ```
 
-## Demo3: Client Responder
+## Demo3: Session Resumption
+
+```
+socat -d TCP-LISTEN:7002,fork,reuseaddr TCP:localhost:7000
+```
+
+```
+rsc --route=request-stream --data=Hello --limitRate=1 --delayElement=1000 --stream --resume 60 tcp://localhost:7002
+```
+
+## Demo4: Client Responder
 
 > This feature in RSC has not been released
 
@@ -72,7 +82,7 @@ rsc --route=request-stream --data=Hello --limitRate=1 --take 10 --delayElement=1
 rsc-0.10.0-SNAPSHOT --route requester --responder ~/git/learning-rsocket-using-rsc/responder.js  tcp://localhost:7000 
 ```
 
-## Demo4: Authentication
+## Demo5: Authentication
 
 ```
 rsc --route=hello --data=SpringOne tcp://localhost:7000
@@ -86,7 +96,7 @@ rsc --authSimple=jdoe:rsocket --route=hello --data=SpringOne tcp://localhost:700
 rsc --authSimple=jdoe:password --route=hello --data=SpringOne tcp://localhost:7000
 ```
 
-## Demo5: Tracing
+## Demo6: Tracing
 
 ```
 rsc --route=tracing --stream tcp://localhost:7000
